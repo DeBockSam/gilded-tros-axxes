@@ -1,7 +1,7 @@
 import { Item } from "../src/item";
 import { GildedTros } from "../src/gilded-tros";
-import { updateQualityByDays } from "./test-utils";
-import { assertItemMinimumQuality } from "./assertions";
+import { updateQualityByDays } from "./util";
+import { assertItemMinimumQuality } from "./util/assertions";
 import {
   DEFAULT_DEGRADATION_RATE,
   EXPIRED_ITEM_DEGRADATION_RATE,

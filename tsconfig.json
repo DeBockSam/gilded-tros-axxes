@@ -14,9 +14,5 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": [
-    "**/src",
-    "test/**.spec.ts",
-    "test/text-test-fixture.ts"
-  ]
+  "include": ["src/**/*", "test/**/*"]
 }

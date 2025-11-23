@@ -1,6 +1,6 @@
 import { Item } from "../src/item";
 import { GildedTros } from "../src/gilded-tros";
-import { updateQualityByDays } from "./test-utils";
+import { updateQualityByDays } from "./util";
 import { LEGENDARY_ITEMS, LEGENDARY_ITEM_QUALITY } from "../src/configuration";
 
 describe("Legendary items", () => {

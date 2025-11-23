@@ -1,13 +1,13 @@
 import { Item } from "../src/item";
 import { GildedTros } from "../src/gilded-tros";
-import { updateQualityByDays } from "./test-utils";
+import { updateQualityByDays } from "./util";
 import {
   SMELLY_ITEMS,
   DEFAULT_DEGRADATION_RATE,
   EXPIRED_ITEM_DEGRADATION_RATE,
   SMELLY_ITEM_DEGRADATION_MULTIPLIER,
 } from "../src/configuration";
-import { assertItemMinimumQuality } from "./assertions";
+import { assertItemMinimumQuality } from "./util/assertions";
 
 // TODO these are failing because they are not implemented correctly yet
 describe("Smelly items", () => {

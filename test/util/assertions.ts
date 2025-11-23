@@ -1,5 +1,5 @@
-import { Item } from "../src/item";
-import { MIN_QUALITY, MAX_QUALITY } from "../src/configuration";
+import { Item } from "../../src/item";
+import { MIN_QUALITY, MAX_QUALITY } from "../../src/configuration";
 
 export function assertItemMinimumQuality(item: Item): void {
   expect(item.quality).toBeGreaterThanOrEqual(MIN_QUALITY);

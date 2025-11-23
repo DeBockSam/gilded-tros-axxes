@@ -6,8 +6,8 @@ import {
   EXPIRED_BACKSTAGE_PASS_QUALITY,
   MAX_QUALITY,
 } from "../src/configuration";
-import { updateQualityByDays } from "./test-utils";
-import { assertItemMaximumQuality } from "./assertions";
+import { updateQualityByDays } from "./util";
+import { assertItemMaximumQuality } from "./util/assertions";
 
 const VALID_BACKSTAGE_PASS_NAME = `${BACKSTAGE_PASS_KEYWORDS[0]} for Re:Factor`;
 
