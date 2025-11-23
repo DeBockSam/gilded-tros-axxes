@@ -11,7 +11,9 @@ import { assertItemMinimumQuality } from "@/test/util/assertions";
 
 // TODO these are failing because they are not implemented correctly yet
 describe("Smelly items", () => {
-  it("should decrease quality twice as fast as normal items", () => {
+  it(`should degrade at ${SMELLY_ITEM_DEGRADATION_MULTIPLIER}x the normal rate before expiry (${
+    DEFAULT_DEGRADATION_RATE * SMELLY_ITEM_DEGRADATION_MULTIPLIER
+  } quality per day)`, () => {
     const items: Item[] = [new Item(SMELLY_ITEMS[0], 3, 20)];
     const app: GildedTros = new GildedTros(items);
     app.progressDay();
@@ -24,7 +26,9 @@ describe("Smelly items", () => {
     );
   });
 
-  it("should degrade four times as fast after sellIn date", () => {
+  it(`should degrade at ${SMELLY_ITEM_DEGRADATION_MULTIPLIER}x the expired rate after sellIn date (${
+    EXPIRED_ITEM_DEGRADATION_RATE * SMELLY_ITEM_DEGRADATION_MULTIPLIER
+  } quality per day)`, () => {
     const items: Item[] = [new Item(SMELLY_ITEMS[0], 0, 20)];
     const app: GildedTros = new GildedTros(items);
     app.progressDay();
