@@ -12,7 +12,7 @@ import { assertItemMinimumQuality } from "./assertions";
 // TODO these are failing because they are not implemented correctly yet
 describe("Smelly items", () => {
   it("should decrease quality twice as fast as normal items", () => {
-    const items: Item[] = [new Item(SMELLY_ITEMS[0], 2, 20)];
+    const items: Item[] = [new Item(SMELLY_ITEMS[0], 3, 20)];
     const app: GildedTros = new GildedTros(items);
     app.progressDay();
     expect(app.items[0].quality).toEqual(

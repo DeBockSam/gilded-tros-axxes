@@ -7,6 +7,7 @@ import {
   AGING_ITEM_IMPROVEMENT_RATE,
   BACKSTAGE_PASS_IMPROVEMENT_RATES,
   EXPIRED_BACKSTAGE_PASS_QUALITY,
+  SMELLY_ITEM_DEGRADATION_MULTIPLIER,
 } from "../configuration";
 
 export interface StockItem extends Item {
@@ -28,9 +29,14 @@ const defaultSellInStrategy: SellInUpdateStrategy = (item: Item) => {
   item.sellIn -= 1;
 };
 
+const getBaseDegradationRate = (item: Item): number => {
+  return item.sellIn < 0
+    ? EXPIRED_ITEM_DEGRADATION_RATE
+    : DEFAULT_DEGRADATION_RATE;
+};
+
 const defaultQualityStrategy: QualityUpdateStrategy = (item: Item) => {
-  const degradationRate =
-    item.sellIn < 0 ? EXPIRED_ITEM_DEGRADATION_RATE : DEFAULT_DEGRADATION_RATE;
+  const degradationRate = getBaseDegradationRate(item);
   item.quality = Math.max(MIN_QUALITY, item.quality - degradationRate);
 };
 
@@ -66,6 +72,13 @@ const backstagePassQualityStrategy: QualityUpdateStrategy = (item: Item) => {
   item.quality = Math.min(MAX_QUALITY, item.quality + improvementRate);
 };
 
+const smellyQualityStrategy: QualityUpdateStrategy = (item: Item) => {
+  const baseDegradationRate = getBaseDegradationRate(item);
+  const degradationRate =
+    baseDegradationRate * SMELLY_ITEM_DEGRADATION_MULTIPLIER;
+  item.quality = Math.max(MIN_QUALITY, item.quality - degradationRate);
+};
+
 /**
  * Map of item types to their update strategies
  * This makes it easy to add new item types with their own logic
@@ -86,6 +99,10 @@ const updateStrategies: Record<string, ItemUpdateStrategy> = {
   backstagePass: {
     updateSellIn: defaultSellInStrategy,
     updateQuality: backstagePassQualityStrategy,
+  },
+  smelly: {
+    updateSellIn: defaultSellInStrategy,
+    updateQuality: smellyQualityStrategy,
   },
 };
 

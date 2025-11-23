@@ -3,7 +3,12 @@ import {
   StockItem,
   GildedTrosStockItem,
 } from "./decorators/GildedTrosStockItem";
-import { isAgingItem, isLegendaryItem, isBackstagePassItem } from "./types";
+import {
+  isAgingItem,
+  isLegendaryItem,
+  isBackstagePassItem,
+  isSmellyItem,
+} from "./types";
 
 export class GildedTros {
   public items: Array<StockItem>;
@@ -18,6 +23,9 @@ export class GildedTros {
       }
       if (isAgingItem(item)) {
         return GildedTrosStockItem(item, "aging");
+      }
+      if (isSmellyItem(item)) {
+        return GildedTrosStockItem(item, "smelly");
       }
       return GildedTrosStockItem(item, "default");
     });
