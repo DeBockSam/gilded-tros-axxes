@@ -1,7 +1,7 @@
-import { Item } from "../src/item";
-import { GildedTros } from "../src/gilded-tros";
-import { updateQualityByDays } from "./util";
-import { LEGENDARY_ITEMS, LEGENDARY_ITEM_QUALITY } from "../src/configuration";
+import { Item } from "@/item";
+import { GildedTros } from "@/gilded-tros";
+import { updateQualityByDays } from "@/test/util";
+import { LEGENDARY_ITEMS, LEGENDARY_ITEM_QUALITY } from "@/configuration";
 
 describe("Legendary items", () => {
   it("should not update quality", () => {

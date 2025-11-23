@@ -1,13 +1,13 @@
-import { Item } from "../src/item";
-import { GildedTros } from "../src/gilded-tros";
-import { updateQualityByDays } from "./util";
+import { Item } from "@/item";
+import { GildedTros } from "@/gilded-tros";
+import { updateQualityByDays } from "@/test/util";
 import {
   SMELLY_ITEMS,
   DEFAULT_DEGRADATION_RATE,
   EXPIRED_ITEM_DEGRADATION_RATE,
   SMELLY_ITEM_DEGRADATION_MULTIPLIER,
-} from "../src/configuration";
-import { assertItemMinimumQuality } from "./util/assertions";
+} from "@/configuration";
+import { assertItemMinimumQuality } from "@/test/util/assertions";
 
 // TODO these are failing because they are not implemented correctly yet
 describe("Smelly items", () => {

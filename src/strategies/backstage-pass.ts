@@ -1,10 +1,10 @@
-import { Item } from "../item";
+import { Item } from "@/item";
 import {
   MAX_QUALITY,
   BACKSTAGE_PASS_IMPROVEMENT_RATES,
   EXPIRED_BACKSTAGE_PASS_QUALITY,
-} from "../configuration";
-import { QualityUpdateStrategy } from "../types";
+} from "@/configuration";
+import { QualityUpdateStrategy } from "@/types";
 
 export const backstagePassQualityStrategy: QualityUpdateStrategy = (
   item: Item

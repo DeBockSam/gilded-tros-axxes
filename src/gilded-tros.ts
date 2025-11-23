@@ -1,14 +1,14 @@
-import { Item } from "./item";
+import { Item } from "@/item";
 import {
   StockItem,
   GildedTrosStockItem,
-} from "./decorators/GildedTrosStockItem";
+} from "@/decorators/GildedTrosStockItem";
 import {
   isAgingItem,
   isLegendaryItem,
   isBackstagePassItem,
   isSmellyItem,
-} from "./types";
+} from "@/types";
 
 export class GildedTros {
   public items: Array<StockItem>;

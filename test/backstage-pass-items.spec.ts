@@ -1,13 +1,13 @@
-import { Item } from "../src/item";
-import { GildedTros } from "../src/gilded-tros";
+import { Item } from "@/item";
+import { GildedTros } from "@/gilded-tros";
 import {
   BACKSTAGE_PASS_KEYWORDS,
   BACKSTAGE_PASS_IMPROVEMENT_RATES,
   EXPIRED_BACKSTAGE_PASS_QUALITY,
   MAX_QUALITY,
-} from "../src/configuration";
-import { updateQualityByDays } from "./util";
-import { assertItemMaximumQuality } from "./util/assertions";
+} from "@/configuration";
+import { updateQualityByDays } from "@/test/util";
+import { assertItemMaximumQuality } from "@/test/util/assertions";
 
 const VALID_BACKSTAGE_PASS_NAME = `${BACKSTAGE_PASS_KEYWORDS[0]} for Re:Factor`;
 

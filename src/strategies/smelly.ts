@@ -1,10 +1,10 @@
-import { Item } from "../item";
+import { Item } from "@/item";
 import {
   MIN_QUALITY,
   SMELLY_ITEM_DEGRADATION_MULTIPLIER,
-} from "../configuration";
-import { QualityUpdateStrategy } from "../types";
-import { getBaseDegradationRate } from "./default";
+} from "@/configuration";
+import { QualityUpdateStrategy } from "@/types";
+import { getBaseDegradationRate } from "@/strategies/default";
 
 export const smellyQualityStrategy: QualityUpdateStrategy = (item: Item) => {
   const baseDegradationRate = getBaseDegradationRate(item);

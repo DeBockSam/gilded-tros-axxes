@@ -1,11 +1,11 @@
-import { Item } from "../src/item";
-import { GildedTros } from "../src/gilded-tros";
-import { updateQualityByDays } from "./util";
-import { assertItemMinimumQuality } from "./util/assertions";
+import { Item } from "@/item";
+import { GildedTros } from "@/gilded-tros";
+import { updateQualityByDays } from "@/test/util";
+import { assertItemMinimumQuality } from "@/test/util/assertions";
 import {
   DEFAULT_DEGRADATION_RATE,
   EXPIRED_ITEM_DEGRADATION_RATE,
-} from "../src/configuration";
+} from "@/configuration";
 
 const DEFAULT_ITEM_TEST_NAME = "foo";
 

@@ -1,10 +1,10 @@
-import { Item } from "../item";
+import { Item } from "@/item";
 import {
   DEFAULT_DEGRADATION_RATE,
   EXPIRED_ITEM_DEGRADATION_RATE,
   MIN_QUALITY,
-} from "../configuration";
-import { QualityUpdateStrategy, SellInUpdateStrategy } from "../types";
+} from "@/configuration";
+import { QualityUpdateStrategy, SellInUpdateStrategy } from "@/types";
 
 export const getBaseDegradationRate = (item: Item): number => {
   return item.sellIn < 0

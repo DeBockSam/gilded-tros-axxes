@@ -1,12 +1,12 @@
-import { Item } from "../src/item";
-import { GildedTros } from "../src/gilded-tros";
-import { updateQualityByDays } from "./util";
+import { Item } from "@/item";
+import { GildedTros } from "@/gilded-tros";
+import { updateQualityByDays } from "@/test/util";
 import {
   AGING_ITEMS,
   AGING_ITEM_IMPROVEMENT_RATE,
   MAX_QUALITY,
-} from "../src/configuration";
-import { assertItemMaximumQuality } from "./util/assertions";
+} from "@/configuration";
+import { assertItemMaximumQuality } from "@/test/util/assertions";
 
 describe("Aging items", () => {
   it("should increase in quality", () => {

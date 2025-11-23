@@ -1,15 +1,15 @@
-import { Item } from "../item";
+import { Item } from "@/item";
 import {
   defaultSellInStrategy,
   defaultQualityStrategy,
-} from "../strategies/default";
-import { agingQualityStrategy } from "../strategies/aging";
+} from "@/strategies/default";
+import { agingQualityStrategy } from "@/strategies/aging";
 import {
   legendarySellInStrategy,
   legendaryQualityStrategy,
-} from "../strategies/legendary";
-import { backstagePassQualityStrategy } from "../strategies/backstage-pass";
-import { smellyQualityStrategy } from "../strategies/smelly";
+} from "@/strategies/legendary";
+import { backstagePassQualityStrategy } from "@/strategies/backstage-pass";
+import { smellyQualityStrategy } from "@/strategies/smelly";
 
 export interface StockItem extends Item {
   progressDay(): void;
@@ -17,7 +17,7 @@ export interface StockItem extends Item {
   progressQuality(): void;
 }
 
-import { SellInUpdateStrategy, QualityUpdateStrategy } from "../types";
+import { SellInUpdateStrategy, QualityUpdateStrategy } from "@/types";
 
 interface ItemUpdateStrategy {
   updateSellIn: SellInUpdateStrategy;
