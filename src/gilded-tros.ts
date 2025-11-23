@@ -3,13 +3,19 @@ import {
   StockItem,
   GildedTrosStockItem,
 } from "./decorators/GildedTrosStockItem";
+import { isAgingItem } from "./types";
 
 export class GildedTros {
   public items: Array<StockItem>;
 
   constructor(items: Array<Item>) {
-    // Wrap all items with the decorator
-    this.items = items.map((item) => GildedTrosStockItem(item));
+    // Wrap all items with the appropriate decorator based on item type
+    this.items = items.map((item) => {
+      if (isAgingItem(item)) {
+        return GildedTrosStockItem(item, "aging");
+      }
+      return GildedTrosStockItem(item, "default");
+    });
   }
 
   public progressDay(): void {
