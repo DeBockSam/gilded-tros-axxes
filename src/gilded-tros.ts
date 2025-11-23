@@ -3,14 +3,16 @@ import {
   StockItem,
   GildedTrosStockItem,
 } from "./decorators/GildedTrosStockItem";
-import { isAgingItem, isLegendaryItem } from "./types";
+import { isAgingItem, isLegendaryItem, isBackstagePassItem } from "./types";
 
 export class GildedTros {
   public items: Array<StockItem>;
 
   constructor(items: Array<Item>) {
-    // Wrap all items with the appropriate decorator based on item type
     this.items = items.map((item) => {
+      if (isBackstagePassItem(item)) {
+        return GildedTrosStockItem(item, "backstagePass");
+      }
       if (isLegendaryItem(item)) {
         return GildedTrosStockItem(item, "legendary");
       }

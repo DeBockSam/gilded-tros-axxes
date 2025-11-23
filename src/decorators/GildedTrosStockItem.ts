@@ -5,6 +5,8 @@ import {
   MIN_QUALITY,
   MAX_QUALITY,
   AGING_ITEM_IMPROVEMENT_RATE,
+  BACKSTAGE_PASS_IMPROVEMENT_RATES,
+  EXPIRED_BACKSTAGE_PASS_QUALITY,
 } from "../configuration";
 
 export interface StockItem extends Item {
@@ -47,6 +49,23 @@ const legendaryQualityStrategy: QualityUpdateStrategy = (item: Item) => {
   // Legendary items never change quality
 };
 
+const backstagePassQualityStrategy: QualityUpdateStrategy = (item: Item) => {
+  if (item.sellIn < 0) {
+    item.quality = EXPIRED_BACKSTAGE_PASS_QUALITY;
+    return;
+  }
+  let improvementRate: number;
+  if (item.sellIn < BACKSTAGE_PASS_IMPROVEMENT_RATES.middleThreshold) {
+    improvementRate = BACKSTAGE_PASS_IMPROVEMENT_RATES.lowerRate;
+  } else if (item.sellIn < BACKSTAGE_PASS_IMPROVEMENT_RATES.upperThreshold) {
+    improvementRate = BACKSTAGE_PASS_IMPROVEMENT_RATES.middleRate;
+  } else {
+    improvementRate = BACKSTAGE_PASS_IMPROVEMENT_RATES.upperRate;
+  }
+
+  item.quality = Math.min(MAX_QUALITY, item.quality + improvementRate);
+};
+
 /**
  * Map of item types to their update strategies
  * This makes it easy to add new item types with their own logic
@@ -63,6 +82,10 @@ const updateStrategies: Record<string, ItemUpdateStrategy> = {
   legendary: {
     updateSellIn: legendarySellInStrategy,
     updateQuality: legendaryQualityStrategy,
+  },
+  backstagePass: {
+    updateSellIn: defaultSellInStrategy,
+    updateQuality: backstagePassQualityStrategy,
   },
 };
 
