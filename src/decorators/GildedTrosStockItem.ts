@@ -39,6 +39,14 @@ const agingQualityStrategy: QualityUpdateStrategy = (item: Item) => {
   );
 };
 
+const legendarySellInStrategy: SellInUpdateStrategy = (item: Item) => {
+  // Legendary items don't need to be sold
+};
+
+const legendaryQualityStrategy: QualityUpdateStrategy = (item: Item) => {
+  // Legendary items never change quality
+};
+
 /**
  * Map of item types to their update strategies
  * This makes it easy to add new item types with their own logic
@@ -51,6 +59,10 @@ const updateStrategies: Record<string, ItemUpdateStrategy> = {
   aging: {
     updateSellIn: defaultSellInStrategy,
     updateQuality: agingQualityStrategy,
+  },
+  legendary: {
+    updateSellIn: legendarySellInStrategy,
+    updateQuality: legendaryQualityStrategy,
   },
 };
 

@@ -14,4 +14,15 @@ describe("Legendary items", () => {
     updateQualityByDays(app, 10);
     expect(app.items[0].quality).toEqual(LEGENDARY_ITEM_QUALITY);
   });
+
+  it("should not update sellIn", () => {
+    const items: Item[] = [
+      new Item(LEGENDARY_ITEMS[0], 10, LEGENDARY_ITEM_QUALITY),
+    ];
+    const app: GildedTros = new GildedTros(items);
+    app.progressDay();
+    expect(app.items[0].sellIn).toEqual(10);
+    updateQualityByDays(app, 5);
+    expect(app.items[0].sellIn).toEqual(10);
+  });
 });
