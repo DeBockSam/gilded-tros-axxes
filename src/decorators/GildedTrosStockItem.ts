@@ -1,14 +1,15 @@
 import { Item } from "../item";
 import {
-  DEFAULT_DEGRADATION_RATE,
-  EXPIRED_ITEM_DEGRADATION_RATE,
-  MIN_QUALITY,
-  MAX_QUALITY,
-  AGING_ITEM_IMPROVEMENT_RATE,
-  BACKSTAGE_PASS_IMPROVEMENT_RATES,
-  EXPIRED_BACKSTAGE_PASS_QUALITY,
-  SMELLY_ITEM_DEGRADATION_MULTIPLIER,
-} from "../configuration";
+  defaultSellInStrategy,
+  defaultQualityStrategy,
+} from "../strategies/default";
+import { agingQualityStrategy } from "../strategies/aging";
+import {
+  legendarySellInStrategy,
+  legendaryQualityStrategy,
+} from "../strategies/legendary";
+import { backstagePassQualityStrategy } from "../strategies/backstage-pass";
+import { smellyQualityStrategy } from "../strategies/smelly";
 
 export interface StockItem extends Item {
   progressDay(): void;
@@ -16,68 +17,12 @@ export interface StockItem extends Item {
   progressQuality(): void;
 }
 
-type SellInUpdateStrategy = (item: Item) => void;
-
-type QualityUpdateStrategy = (item: Item) => void;
+import { SellInUpdateStrategy, QualityUpdateStrategy } from "../types";
 
 interface ItemUpdateStrategy {
   updateSellIn: SellInUpdateStrategy;
   updateQuality: QualityUpdateStrategy;
 }
-
-const defaultSellInStrategy: SellInUpdateStrategy = (item: Item) => {
-  item.sellIn -= 1;
-};
-
-const getBaseDegradationRate = (item: Item): number => {
-  return item.sellIn < 0
-    ? EXPIRED_ITEM_DEGRADATION_RATE
-    : DEFAULT_DEGRADATION_RATE;
-};
-
-const defaultQualityStrategy: QualityUpdateStrategy = (item: Item) => {
-  const degradationRate = getBaseDegradationRate(item);
-  item.quality = Math.max(MIN_QUALITY, item.quality - degradationRate);
-};
-
-const agingQualityStrategy: QualityUpdateStrategy = (item: Item) => {
-  item.quality = Math.min(
-    MAX_QUALITY,
-    item.quality + AGING_ITEM_IMPROVEMENT_RATE
-  );
-};
-
-const legendarySellInStrategy: SellInUpdateStrategy = (item: Item) => {
-  // Legendary items don't need to be sold
-};
-
-const legendaryQualityStrategy: QualityUpdateStrategy = (item: Item) => {
-  // Legendary items never change quality
-};
-
-const backstagePassQualityStrategy: QualityUpdateStrategy = (item: Item) => {
-  if (item.sellIn < 0) {
-    item.quality = EXPIRED_BACKSTAGE_PASS_QUALITY;
-    return;
-  }
-  let improvementRate: number;
-  if (item.sellIn < BACKSTAGE_PASS_IMPROVEMENT_RATES.middleThreshold) {
-    improvementRate = BACKSTAGE_PASS_IMPROVEMENT_RATES.lowerRate;
-  } else if (item.sellIn < BACKSTAGE_PASS_IMPROVEMENT_RATES.upperThreshold) {
-    improvementRate = BACKSTAGE_PASS_IMPROVEMENT_RATES.middleRate;
-  } else {
-    improvementRate = BACKSTAGE_PASS_IMPROVEMENT_RATES.upperRate;
-  }
-
-  item.quality = Math.min(MAX_QUALITY, item.quality + improvementRate);
-};
-
-const smellyQualityStrategy: QualityUpdateStrategy = (item: Item) => {
-  const baseDegradationRate = getBaseDegradationRate(item);
-  const degradationRate =
-    baseDegradationRate * SMELLY_ITEM_DEGRADATION_MULTIPLIER;
-  item.quality = Math.max(MIN_QUALITY, item.quality - degradationRate);
-};
 
 /**
  * Map of item types to their update strategies

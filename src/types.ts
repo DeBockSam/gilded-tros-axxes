@@ -53,3 +53,6 @@ export function isSmellyItem(
 ): item is Item & { name: SmellyItemName } {
   return (SMELLY_ITEMS as readonly string[]).includes(item.name);
 }
+
+export type SellInUpdateStrategy = (item: Item) => void;
+export type QualityUpdateStrategy = (item: Item) => void;
