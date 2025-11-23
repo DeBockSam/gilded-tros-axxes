@@ -1,15 +1,17 @@
 import { Item } from "../src/item";
 import { GildedTros } from "../src/gilded-tros";
 import { updateQualityByDays } from "./test-utils";
-import { LEGENDARY_ITEMS } from "../src/configuration";
+import { LEGENDARY_ITEMS, LEGENDARY_ITEM_QUALITY } from "../src/configuration";
 
 describe("Legendary items", () => {
   it("should not update quality", () => {
-    const items: Item[] = [new Item(LEGENDARY_ITEMS[0], 1, 80)];
+    const items: Item[] = [
+      new Item(LEGENDARY_ITEMS[0], 1, LEGENDARY_ITEM_QUALITY),
+    ];
     const app: GildedTros = new GildedTros(items);
     app.updateQuality();
-    expect(app.items[0].quality).toEqual(80);
+    expect(app.items[0].quality).toEqual(LEGENDARY_ITEM_QUALITY);
     updateQualityByDays(app, 10);
-    expect(app.items[0].quality).toEqual(80);
+    expect(app.items[0].quality).toEqual(LEGENDARY_ITEM_QUALITY);
   });
 });
