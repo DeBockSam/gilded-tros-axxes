@@ -1,13 +1,13 @@
-import { Item } from "../src/item";
-import { GildedTros } from "../src/gilded-tros";
+import { Item } from "@/item";
+import { GildedTros } from "@/gilded-tros";
 import {
   BACKSTAGE_PASS_KEYWORDS,
   BACKSTAGE_PASS_IMPROVEMENT_RATES,
   EXPIRED_BACKSTAGE_PASS_QUALITY,
   MAX_QUALITY,
-} from "../src/configuration";
-import { updateQualityByDays } from "./test-utils";
-import { assertItemMaximumQuality } from "./assertions";
+} from "@/configuration";
+import { updateQualityByDays } from "@/test/util";
+import { assertItemMaximumQuality } from "@/test/util/assertions";
 
 const VALID_BACKSTAGE_PASS_NAME = `${BACKSTAGE_PASS_KEYWORDS[0]} for Re:Factor`;
 
@@ -20,7 +20,7 @@ describe("Backstage pass items", () => {
   it("should increase in quality by 1 when sellIn > 10", () => {
     const items: Item[] = [new Item(VALID_BACKSTAGE_PASS_NAME, 15, 20)];
     const app: GildedTros = new GildedTros(items);
-    app.updateQuality();
+    app.progressDay();
     expect(app.items[0].quality).toEqual(
       20 + BACKSTAGE_PASS_IMPROVEMENT_RATES.upperRate
     );
@@ -33,7 +33,7 @@ describe("Backstage pass items", () => {
   it("should increase in quality by 2 when sellIn <= 10 and > 5", () => {
     const items: Item[] = [new Item(VALID_BACKSTAGE_PASS_NAME, 10, 20)];
     const app: GildedTros = new GildedTros(items);
-    app.updateQuality();
+    app.progressDay();
     expect(app.items[0].quality).toEqual(
       20 + BACKSTAGE_PASS_IMPROVEMENT_RATES.middleRate
     );
@@ -46,7 +46,7 @@ describe("Backstage pass items", () => {
   it("should increase in quality by 3 when sellIn <= 5", () => {
     const items: Item[] = [new Item(VALID_BACKSTAGE_PASS_NAME, 5, 20)];
     const app: GildedTros = new GildedTros(items);
-    app.updateQuality();
+    app.progressDay();
     expect(app.items[0].quality).toEqual(
       20 + BACKSTAGE_PASS_IMPROVEMENT_RATES.lowerRate
     );
@@ -65,7 +65,7 @@ describe("Backstage pass items", () => {
       ),
     ];
     const app: GildedTros = new GildedTros(items);
-    app.updateQuality();
+    app.progressDay();
     assertItemMaximumQuality(app.items[0]);
     updateQualityByDays(app, 4);
     assertItemMaximumQuality(app.items[0]);
@@ -75,11 +75,11 @@ describe("Backstage pass items", () => {
   it("should drop quality to 0 after the event", () => {
     const items: Item[] = [new Item(VALID_BACKSTAGE_PASS_NAME, 1, 20)];
     const app: GildedTros = new GildedTros(items);
-    app.updateQuality();
+    app.progressDay();
     expect(app.items[0].quality).toEqual(
       20 + BACKSTAGE_PASS_IMPROVEMENT_RATES.lowerRate
     );
-    app.updateQuality();
+    app.progressDay();
     assertExpiredBackstagePassAsNoQuality(app.items[0]);
     updateQualityByDays(app, 4);
     assertExpiredBackstagePassAsNoQuality(app.items[0]);

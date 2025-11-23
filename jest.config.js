@@ -4,5 +4,9 @@ module.exports = {
     '^.+\\.(ts|tsx)?$': 'ts-jest',
     "^.+\\.(js|jsx)$": "babel-jest",
   },
-  testPathIgnorePatterns: ['/node_modules/', '/dist/']
+  testPathIgnorePatterns: ['/node_modules/', '/dist/'],
+  moduleNameMapper: {
+    '^@/test/(.*)$': '<rootDir>/test/$1',
+    '^@/(.*)$': '<rootDir>/src/$1',
+  }
 };

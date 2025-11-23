@@ -1,65 +1,47 @@
-import { Item } from "./item";
+import { Item } from "@/item";
+import {
+  StockItem,
+  GildedTrosStockItem,
+} from "@/decorators/GildedTrosStockItem";
+import { getItemType, isLegendaryItem } from "@/types";
+import {
+  MIN_QUALITY,
+  MAX_QUALITY,
+  LEGENDARY_ITEM_QUALITY,
+} from "@/configuration";
 
 export class GildedTros {
-  constructor(public items: Array<Item>) {}
+  public items: Array<StockItem>;
 
-  public updateQuality(): void {
-    for (let i = 0; i < this.items.length; i++) {
-      if (
-        this.items[i].name != "Good Wine" &&
-        this.items[i].name != "Backstage passes for Re:Factor" &&
-        this.items[i].name != "Backstage passes for HAXX"
-      ) {
-        if (this.items[i].quality > 0) {
-          if (this.items[i].name != "B-DAWG Keychain") {
-            this.items[i].quality = this.items[i].quality - 1;
-          }
-        }
+  constructor(items: Array<Item>, shouldSanitizeInitialData: boolean = false) {
+    if (shouldSanitizeInitialData) {
+      items = this.sanitizeItems(items);
+    }
+
+    this.items = items.map((item) => {
+      const itemType = getItemType(item);
+      return GildedTrosStockItem(item, itemType);
+    });
+  }
+
+  private sanitizeItems(items: Array<Item>): Array<Item> {
+    return items.map((item) => {
+      if (isLegendaryItem(item)) {
+        item.sellIn = 0;
+        item.quality = LEGENDARY_ITEM_QUALITY;
       } else {
-        if (this.items[i].quality < 50) {
-          this.items[i].quality = this.items[i].quality + 1;
-
-          if (this.items[i].name == "Backstage passes for Re:Factor") {
-            if (this.items[i].sellIn < 11) {
-              if (this.items[i].quality < 50) {
-                this.items[i].quality = this.items[i].quality + 1;
-              }
-            }
-
-            if (this.items[i].sellIn < 6) {
-              if (this.items[i].quality < 50) {
-                this.items[i].quality = this.items[i].quality + 1;
-              }
-            }
-          }
-        }
+        item.quality = Math.max(
+          MIN_QUALITY,
+          Math.min(MAX_QUALITY, item.quality)
+        );
       }
+      return item;
+    });
+  }
 
-      if (this.items[i].name != "B-DAWG Keychain") {
-        this.items[i].sellIn = this.items[i].sellIn - 1;
-      }
-
-      if (this.items[i].sellIn < 0) {
-        if (this.items[i].name != "Good Wine") {
-          if (
-            this.items[i].name != "Backstage passes for Re:Factor" ||
-            this.items[i].name != "Backstage passes for HAXX"
-          ) {
-            if (this.items[i].quality > 0) {
-              if (this.items[i].name != "B-DAWG Keychain") {
-                this.items[i].quality = this.items[i].quality - 1;
-              }
-            }
-          } else {
-            this.items[i].quality =
-              this.items[i].quality - this.items[i].quality;
-          }
-        } else {
-          if (this.items[i].quality < 50) {
-            this.items[i].quality = this.items[i].quality + 1;
-          }
-        }
-      }
+  public progressDay(): void {
+    for (let i = 0; i < this.items.length; i++) {
+      this.items[i].progressDay();
     }
   }
 }

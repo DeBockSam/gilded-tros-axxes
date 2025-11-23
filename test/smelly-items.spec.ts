@@ -1,20 +1,22 @@
-import { Item } from "../src/item";
-import { GildedTros } from "../src/gilded-tros";
-import { updateQualityByDays } from "./test-utils";
+import { Item } from "@/item";
+import { GildedTros } from "@/gilded-tros";
+import { updateQualityByDays } from "@/test/util";
 import {
   SMELLY_ITEMS,
   DEFAULT_DEGRADATION_RATE,
   EXPIRED_ITEM_DEGRADATION_RATE,
   SMELLY_ITEM_DEGRADATION_MULTIPLIER,
-} from "../src/configuration";
-import { assertItemMinimumQuality } from "./assertions";
+} from "@/configuration";
+import { assertItemMinimumQuality } from "@/test/util/assertions";
 
 // TODO these are failing because they are not implemented correctly yet
 describe("Smelly items", () => {
-  it("should decrease quality twice as fast as normal items", () => {
-    const items: Item[] = [new Item(SMELLY_ITEMS[0], 2, 20)];
+  it(`should degrade at ${SMELLY_ITEM_DEGRADATION_MULTIPLIER}x the normal rate before expiry (${
+    DEFAULT_DEGRADATION_RATE * SMELLY_ITEM_DEGRADATION_MULTIPLIER
+  } quality per day)`, () => {
+    const items: Item[] = [new Item(SMELLY_ITEMS[0], 3, 20)];
     const app: GildedTros = new GildedTros(items);
-    app.updateQuality();
+    app.progressDay();
     expect(app.items[0].quality).toEqual(
       20 - DEFAULT_DEGRADATION_RATE * SMELLY_ITEM_DEGRADATION_MULTIPLIER
     );
@@ -24,10 +26,12 @@ describe("Smelly items", () => {
     );
   });
 
-  it("should degrade four times as fast after sellIn date", () => {
+  it(`should degrade at ${SMELLY_ITEM_DEGRADATION_MULTIPLIER}x the expired rate after sellIn date (${
+    EXPIRED_ITEM_DEGRADATION_RATE * SMELLY_ITEM_DEGRADATION_MULTIPLIER
+  } quality per day)`, () => {
     const items: Item[] = [new Item(SMELLY_ITEMS[0], 0, 20)];
     const app: GildedTros = new GildedTros(items);
-    app.updateQuality();
+    app.progressDay();
     expect(app.items[0].quality).toEqual(
       20 - EXPIRED_ITEM_DEGRADATION_RATE * SMELLY_ITEM_DEGRADATION_MULTIPLIER
     );
@@ -46,7 +50,7 @@ describe("Smelly items", () => {
   it("should not degrade below minimum quality", () => {
     const items: Item[] = [new Item(SMELLY_ITEMS[0], 0, 3)];
     const app: GildedTros = new GildedTros(items);
-    app.updateQuality();
+    app.progressDay();
     assertItemMinimumQuality(app.items[0]);
     updateQualityByDays(app, 2);
     assertItemMinimumQuality(app.items[0]);
