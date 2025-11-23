@@ -36,6 +36,16 @@ describe("Backstage pass items", () => {
     updateQualityByDays(app, 4);
     expect(app.items[0].quality).toEqual(35);
   });
+
+  it("should not increase quality above 50", () => {
+    const items: Item[] = [new Item(VALID_BACKSTAGE_PASS_NAME, 5, 48)];
+    const app: GildedTros = new GildedTros(items);
+    app.updateQuality();
+    expect(app.items[0].quality).toEqual(50);
+    updateQualityByDays(app, 4);
+    expect(app.items[0].quality).toEqual(50);
+  });
+
   // TODO failing because not implemented correctly?
   it("should drop quality to 0 after the event", () => {
     const items: Item[] = [new Item(VALID_BACKSTAGE_PASS_NAME, 1, 20)];
