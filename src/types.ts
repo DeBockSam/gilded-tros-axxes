@@ -6,6 +6,13 @@ import {
   SMELLY_ITEMS,
 } from "./configuration";
 
+export type ItemType =
+  | "default"
+  | "aging"
+  | "legendary"
+  | "backstagePass"
+  | "smelly";
+
 type AgingItemName = (typeof AGING_ITEMS)[number];
 type LegendaryItemName = (typeof LEGENDARY_ITEMS)[number];
 type SmellyItemName = (typeof SMELLY_ITEMS)[number];
@@ -56,3 +63,24 @@ export function isSmellyItem(
 
 export type SellInUpdateStrategy = (item: Item) => void;
 export type QualityUpdateStrategy = (item: Item) => void;
+
+/**
+ * Determines the item type based on the item's characteristics
+ * @param item The item to check
+ * @returns The type of the item
+ */
+export function getItemType(item: Item): ItemType {
+  if (isBackstagePassItem(item)) {
+    return "backstagePass";
+  }
+  if (isLegendaryItem(item)) {
+    return "legendary";
+  }
+  if (isAgingItem(item)) {
+    return "aging";
+  }
+  if (isSmellyItem(item)) {
+    return "smelly";
+  }
+  return "default";
+}

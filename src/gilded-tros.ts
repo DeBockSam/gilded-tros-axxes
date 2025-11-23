@@ -3,31 +3,15 @@ import {
   StockItem,
   GildedTrosStockItem,
 } from "@/decorators/GildedTrosStockItem";
-import {
-  isAgingItem,
-  isLegendaryItem,
-  isBackstagePassItem,
-  isSmellyItem,
-} from "@/types";
+import { getItemType } from "@/types";
 
 export class GildedTros {
   public items: Array<StockItem>;
 
   constructor(items: Array<Item>) {
     this.items = items.map((item) => {
-      if (isBackstagePassItem(item)) {
-        return GildedTrosStockItem(item, "backstagePass");
-      }
-      if (isLegendaryItem(item)) {
-        return GildedTrosStockItem(item, "legendary");
-      }
-      if (isAgingItem(item)) {
-        return GildedTrosStockItem(item, "aging");
-      }
-      if (isSmellyItem(item)) {
-        return GildedTrosStockItem(item, "smelly");
-      }
-      return GildedTrosStockItem(item, "default");
+      const itemType = getItemType(item);
+      return GildedTrosStockItem(item, itemType);
     });
   }
 

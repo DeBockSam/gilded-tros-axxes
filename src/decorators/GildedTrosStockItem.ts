@@ -17,7 +17,7 @@ export interface StockItem extends Item {
   progressQuality(): void;
 }
 
-import { SellInUpdateStrategy, QualityUpdateStrategy } from "@/types";
+import { SellInUpdateStrategy, QualityUpdateStrategy, ItemType } from "@/types";
 
 interface ItemUpdateStrategy {
   updateSellIn: SellInUpdateStrategy;
@@ -28,7 +28,7 @@ interface ItemUpdateStrategy {
  * Map of item types to their update strategies
  * This makes it easy to add new item types with their own logic
  */
-const updateStrategies: Record<string, ItemUpdateStrategy> = {
+const updateStrategies: Record<ItemType, ItemUpdateStrategy> = {
   default: {
     updateSellIn: defaultSellInStrategy,
     updateQuality: defaultQualityStrategy,
@@ -54,14 +54,11 @@ const updateStrategies: Record<string, ItemUpdateStrategy> = {
 /**
  * Decorator function that adds daily progression methods to an Item
  * @param item The item to decorate
- * @param type The type of item (default: "default")
+ * @param type The type of item
  * @returns The decorated item with progressDay, progressSellIn, and progressQuality methods
  */
-export function GildedTrosStockItem(
-  item: Item,
-  type: string = "default"
-): StockItem {
-  const strategy = updateStrategies[type] || updateStrategies.default;
+export function GildedTrosStockItem(item: Item, type: ItemType): StockItem {
+  const strategy = updateStrategies[type];
 
   const stockItem = Object.create(item) as StockItem;
 
