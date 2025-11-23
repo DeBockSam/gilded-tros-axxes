@@ -12,7 +12,7 @@ describe("Aging items", () => {
   it("should increase in quality", () => {
     const items: Item[] = [new Item(AGING_ITEMS[0], 1, 10)];
     const app: GildedTros = new GildedTros(items);
-    app.updateQuality();
+    app.progressDay();
     expect(app.items[0].quality).toEqual(10 + AGING_ITEM_IMPROVEMENT_RATE);
   });
 
@@ -21,7 +21,7 @@ describe("Aging items", () => {
       new Item(AGING_ITEMS[0], 0, MAX_QUALITY - AGING_ITEM_IMPROVEMENT_RATE),
     ];
     const app: GildedTros = new GildedTros(items);
-    app.updateQuality();
+    app.progressDay();
     assertItemMaximumQuality(app.items[0]);
     updateQualityByDays(app, 2);
     assertItemMaximumQuality(app.items[0]);

@@ -9,7 +9,7 @@ describe("Legendary items", () => {
       new Item(LEGENDARY_ITEMS[0], 1, LEGENDARY_ITEM_QUALITY),
     ];
     const app: GildedTros = new GildedTros(items);
-    app.updateQuality();
+    app.progressDay();
     expect(app.items[0].quality).toEqual(LEGENDARY_ITEM_QUALITY);
     updateQualityByDays(app, 10);
     expect(app.items[0].quality).toEqual(LEGENDARY_ITEM_QUALITY);

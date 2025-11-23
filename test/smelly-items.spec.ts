@@ -14,7 +14,7 @@ describe("Smelly items", () => {
   it("should decrease quality twice as fast as normal items", () => {
     const items: Item[] = [new Item(SMELLY_ITEMS[0], 2, 20)];
     const app: GildedTros = new GildedTros(items);
-    app.updateQuality();
+    app.progressDay();
     expect(app.items[0].quality).toEqual(
       20 - DEFAULT_DEGRADATION_RATE * SMELLY_ITEM_DEGRADATION_MULTIPLIER
     );
@@ -27,7 +27,7 @@ describe("Smelly items", () => {
   it("should degrade four times as fast after sellIn date", () => {
     const items: Item[] = [new Item(SMELLY_ITEMS[0], 0, 20)];
     const app: GildedTros = new GildedTros(items);
-    app.updateQuality();
+    app.progressDay();
     expect(app.items[0].quality).toEqual(
       20 - EXPIRED_ITEM_DEGRADATION_RATE * SMELLY_ITEM_DEGRADATION_MULTIPLIER
     );
@@ -46,7 +46,7 @@ describe("Smelly items", () => {
   it("should not degrade below minimum quality", () => {
     const items: Item[] = [new Item(SMELLY_ITEMS[0], 0, 3)];
     const app: GildedTros = new GildedTros(items);
-    app.updateQuality();
+    app.progressDay();
     assertItemMinimumQuality(app.items[0]);
     updateQualityByDays(app, 2);
     assertItemMinimumQuality(app.items[0]);

@@ -1,8 +1,25 @@
 import { Item } from "./item";
+import {
+  StockItem,
+  GildedTrosStockItem,
+} from "./decorators/GildedTrosStockItem";
 
 export class GildedTros {
-  constructor(public items: Array<Item>) {}
+  public items: Array<StockItem>;
 
+  constructor(items: Array<Item>) {
+    // Wrap all items with the decorator
+    this.items = items.map((item) => GildedTrosStockItem(item));
+  }
+
+  public progressDay(): void {
+    for (let i = 0; i < this.items.length; i++) {
+      this.items[i].progressDay();
+    }
+  }
+
+  // Old implementation - kept for reference
+  /*
   public updateQuality(): void {
     for (let i = 0; i < this.items.length; i++) {
       if (
@@ -62,4 +79,5 @@ export class GildedTros {
       }
     }
   }
+  */
 }
