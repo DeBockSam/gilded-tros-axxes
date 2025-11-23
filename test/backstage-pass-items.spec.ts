@@ -2,6 +2,7 @@ import { Item } from "../src/item";
 import { GildedTros } from "../src/gilded-tros";
 import { BACKSTAGE_PASS_KEYWORDS } from "../src/configuration";
 import { updateQualityByDays } from "./test-utils";
+import { assertItemMaximumQuality } from "./assertions";
 
 const VALID_BACKSTAGE_PASS_NAME = `${BACKSTAGE_PASS_KEYWORDS[0]} for Re:Factor`;
 
@@ -37,13 +38,13 @@ describe("Backstage pass items", () => {
     expect(app.items[0].quality).toEqual(35);
   });
 
-  it("should not increase quality above 50", () => {
+  it("should not increase quality above maximum quality", () => {
     const items: Item[] = [new Item(VALID_BACKSTAGE_PASS_NAME, 5, 48)];
     const app: GildedTros = new GildedTros(items);
     app.updateQuality();
-    expect(app.items[0].quality).toEqual(50);
+    assertItemMaximumQuality(app.items[0]);
     updateQualityByDays(app, 4);
-    expect(app.items[0].quality).toEqual(50);
+    assertItemMaximumQuality(app.items[0]);
   });
 
   // TODO failing because not implemented correctly?

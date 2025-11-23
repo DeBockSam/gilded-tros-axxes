@@ -1,6 +1,7 @@
 import { Item } from "../src/item";
 import { GildedTros } from "../src/gilded-tros";
 import { updateQualityByDays } from "./test-utils";
+import { assertItemMinimumQuality } from "./assertions";
 
 const DEFAULT_ITEM_TEST_NAME = "foo";
 
@@ -23,13 +24,13 @@ describe("Default items", () => {
     expect(app.items[0].quality).toEqual(0);
   });
 
-  it("should not degrade below 0 quality", () => {
+  it("should not degrade below minimum quality", () => {
     const items: Item[] = [new Item(DEFAULT_ITEM_TEST_NAME, 0, 1)];
     const app: GildedTros = new GildedTros(items);
     app.updateQuality();
-    expect(app.items[0].quality).toEqual(0);
-    updateQualityByDays(app, 2);
-    expect(app.items[0].quality).toEqual(0);
+    assertItemMinimumQuality(app.items[0]);
+    updateQualityByDays(app, 4);
+    assertItemMinimumQuality(app.items[0]);
   });
 
   it("should decrease sellIn by 1", () => {
